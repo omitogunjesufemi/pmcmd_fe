@@ -1,6 +1,19 @@
 import { EllipsisVerticalIcon } from '@heroicons/react/24/solid';
+import { useEffect, useState } from 'react';
+import { getDashboard } from '../services/dashboardService';
+import { useApi } from '../hooks/useApi';
+
 
 export default function Dashboard() {
+    const { data: dashboardData, isLoading, error, refetch } = useApi(getDashboard, true);
+
+    if (isLoading) {
+        return <div className="p-6 text-gray-500">Loading dashboard data...</div>;
+    }
+    if (error) {
+        return <div className="p-6 text-red-600 bg-red-50 rounded-xl">Error: {error}</div>;
+    }
+
     return (
         <>
             <div className="p-6">
@@ -11,7 +24,7 @@ export default function Dashboard() {
                 <div className='mt-10 grid grid-cols-1 md:grid-cols-3 gap-6 w-full'>
                     <div className='bg-white-300 p-6 rounded-2xl border border-gray-200 shadow-sm'>
                         <p className='text-sm font-medium text-gray-500 uppercase tracking-wide'>Active Initiatives</p>
-                        <p className='text-4xl font-semibold text-gray-900 mt-2'>10</p>
+                        <p className='text-4xl font-semibold text-gray-900 mt-2'>{dashboardData.data.summary.active}</p>
                     </div>
 
                     <div className='bg-white-300 p-6 rounded-2xl border border-gray-200 shadow-sm'>
