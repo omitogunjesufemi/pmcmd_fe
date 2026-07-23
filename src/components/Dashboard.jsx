@@ -29,19 +29,19 @@ export default function Dashboard() {
 
                     <div className='bg-white-300 p-6 rounded-2xl border border-gray-200 shadow-sm'>
                         <p className='text-sm font-medium text-gray-500 uppercase tracking-wide'>Pending Documents</p>
-                        <p className='text-4xl font-semibold text-gray-900 mt-2'>5</p>
+                        <p className='text-4xl font-semibold text-gray-900 mt-2'>{dashboardData.data.needs_attention.count}</p>
                     </div>
 
                     <div className='bg-white-300 p-6 rounded-2xl border border-gray-200 shadow-sm'>
                         <p className='text-sm font-medium text-gray-500 uppercase tracking-wide'>Blocked Stages</p>
-                        <p className='text-4xl font-semibold text-gray-900 mt-2'>2</p>
+                        <p className='text-4xl font-semibold text-gray-900 mt-2'>{dashboardData.data.needs_attention.count}</p>
                     </div>
                 </div>
 
                 {/* Initiatives List */}
                 <div className='mt-8 overflow-hidden'>
                     <div className='p-3 flex justify-between'>
-                        <h2 className='text-m font-semibold text-gray-900'>Initiatives</h2>
+                        <h2 className='text-m font-semibold text-gray-900'>Initiatives ({dashboardData.data.summary.total_initiatives})</h2>
                         <a className='text-xs font-medium text-indigo-500 hover:text-indigo-700' href='/'>View all</a>
                     </div>
                     <div className='p-3 divide-y divide-gray-100'>
@@ -54,7 +54,6 @@ export default function Dashboard() {
                                 <EllipsisVerticalIcon className='size-6 fill-transparent' />
                             </div>
                         </div>
-
                         <div className='hover:bg-gray-50 group cursor-pointer py-6'>
                             <div className='grid grid-cols-[2fr_1fr_1fr_1fr_auto] gap-4 items-center align-middle'>
                                 <h3 className='text-sm font-semibold text-gray-900'>RM Mapping</h3>

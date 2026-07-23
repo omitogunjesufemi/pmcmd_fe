@@ -3,9 +3,11 @@ import { RectangleGroupIcon } from '@heroicons/react/24/solid';
 import { useApi } from '../hooks/useApi';
 import { login } from '../services/authService';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 
 export default function Login() {
+    const { user, setUser, refreshProfile } = useAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -17,7 +19,8 @@ export default function Login() {
 
         try {
             await executeLogin(email, password);
-            navigate('/dashboard');
+            await refreshProfile();
+            navigate('/');
         } catch (error) {
 
         }

@@ -26,5 +26,5 @@ export function useApi(apiFunction, immediate = true) {
         }
     }, [execute]);
 
-    return { data, isLoading, error, refetch: execute }
+    return { data, setData, isLoading, error, refetch: execute }
 }

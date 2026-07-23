@@ -1,9 +1,21 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import apiFetch from '../services/api';
+import { useApi } from '../hooks/useApi';
+import { profile } from '../services/authService';
 
 
-export default function AuthContext() {
+const AuthContext = createContext();
+
+export function AuthProvider({ children }) {
+    const { data: user, setData: setUser, isLoading: isCheckingSession, refetch: refreshProfile } = useApi(profile);
+
     return (
-        <div>AuthContext</div>
-    )
+        <AuthContext.Provider value={{ user, setUser, isCheckingSession, refreshProfile }}>
+            {children}
+        </AuthContext.Provider>
+    );
+}
+
+
+export function useAuth() {
+    return useContext(AuthContext);
 }

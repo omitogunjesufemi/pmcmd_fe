@@ -10,5 +10,5 @@ export async function login(email, password) {
 
 export async function profile() {
     const { data } = await apiFetch('/auth/profile');
-    return data;
+    return data.data;
 }
