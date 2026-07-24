@@ -7,7 +7,7 @@ import { useAuth } from '../context/AuthContext';
 
 
 export default function Login() {
-    const { user, setUser, refreshProfile } = useAuth();
+    const { refreshProfile } = useAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -60,7 +60,7 @@ export default function Login() {
                     </div>
 
                     <div className='flex items-center justify-center'>
-                        <button className='bg-blue-500 rounded-xl px-3 py-2 w-full hover:bg-blue-700 text-white font-medium transition' type="submit" disabled={isLoading}>{isLoading ? 'Signing in...' : 'Login'}</button>
+                        <button className='bg-blue-500 rounded-xl px-3 py-2 w-full hover:bg-blue-700 text-white font-medium transition disabled:bg-blue-300' type="submit" disabled={isLoading}>{isLoading ? 'Signing in...' : 'Login'}</button>
                     </div>
 
                     <div className='m-auto'>

@@ -42,7 +42,7 @@ export default function Dashboard() {
                 <div className='mt-8 overflow-hidden'>
                     <div className='p-3 flex justify-between'>
                         <h2 className='text-m font-semibold text-gray-900'>Initiatives ({dashboardData.data.summary.total_initiatives})</h2>
-                        <a className='text-xs font-medium text-indigo-500 hover:text-indigo-700' href='/'>View all</a>
+                        <a className='text-xs font-medium text-indigo-500 hover:text-indigo-700' href='/initiatives/add'>+ Add Initiative</a>
                     </div>
                     <div className='p-3 divide-y divide-gray-100'>
                         <div className='hover:bg-gray-50 group cursor-pointer pb-2'>
@@ -54,89 +54,32 @@ export default function Dashboard() {
                                 <EllipsisVerticalIcon className='size-6 fill-transparent' />
                             </div>
                         </div>
-                        <div className='hover:bg-gray-50 group cursor-pointer py-6'>
-                            <div className='grid grid-cols-[2fr_1fr_1fr_1fr_auto] gap-4 items-center align-middle'>
-                                <h3 className='text-sm font-semibold text-gray-900'>RM Mapping</h3>
-                                <div >
-                                    <span className='text-center rounded-full bg-blue-50 px-2  py-1 text-xs border border-blue-800 text-blue-900'>Development</span>
-                                </div>
-
-                                <div>
-                                    <span className='text-center rounded-full bg-rose-50 px-2 py-1 text-xs border border-rose-800 text-rose-900'>3 pending</span>
-                                </div>
-
-                                <div className='flex items-center gap-4'>
-                                    <div className='w-full max-w-md rounded-full h-2 bg-gray-100'>
-                                        <div className='bg-green-600 h-2 rounded-full' style={{ width: '40%' }}></div>
+                        {dashboardData.data.initiatives.map((initiative) => (
+                            <div className='hover:bg-gray-50 group cursor-pointer py-6'>
+                                <div className='grid grid-cols-[2fr_1fr_1fr_1fr_auto] gap-4 items-center align-middle'>
+                                    <h3 className='text-sm font-semibold text-gray-900'>{initiative.title}</h3>
+                                    <div >
+                                        <span className='text-center rounded-full bg-blue-50 px-2  py-1 text-xs border border-blue-800 text-blue-900 capitalize'>{initiative.current_stage}</span>
                                     </div>
-                                    <span className='text-xs font-semibold text-gray-500 font-mono'>40%</span>
-                                </div>
-                                <EllipsisVerticalIcon className='size-6' />
-                            </div>
-                        </div>
 
-                        <div className='hover:bg-gray-50 group cursor-pointer py-6'>
-                            <div className='grid grid-cols-[2fr_1fr_1fr_1fr_auto] gap-4 items-center align-middle'>
-                                <h3 className='text-sm font-semibold text-gray-900'>Mutual Fund Factsheet</h3>
-                                <div >
-                                    <span className='text-center rounded-full bg-blue-50 px-2  py-1 text-xs border border-blue-800 text-blue-900'>Development</span>
-                                </div>
-                                <div>
-                                    <span className='text-center rounded-full bg-rose-50 px-2 py-1 text-xs border border-rose-800 text-rose-900'>3 pending</span>
-                                </div>
-
-                                <div className='flex items-center gap-4'>
-                                    <div className='w-full max-w-md rounded-full h-2 bg-gray-100'>
-                                        <div className='bg-green-600 h-2 rounded-full' style={{ width: '86%' }}></div>
+                                    <div>
+                                        <span className='text-center rounded-full bg-rose-50 px-2 py-1 text-xs border border-rose-800 text-rose-900'>{initiative.blocking_documents_count} pending</span>
                                     </div>
-                                    <span className='text-xs font-semibold text-gray-500 font-mono'>86%</span>
-                                </div>
-                                <EllipsisVerticalIcon className='size-6' />
-                            </div>
-                        </div>
 
-                        <div className='hover:bg-gray-50 group cursor-pointer py-6'>
-                            <div className='grid grid-cols-[2fr_1fr_1fr_1fr_auto] gap-4 items-center align-middle'>
-                                <h3 className='text-sm font-semibold text-gray-900'>Coupon Payment Module</h3>
-                                <div >
-                                    <span className='text-center rounded-full bg-blue-50 px-2  py-1 text-xs border border-blue-800 text-blue-900'>Development</span>
-                                </div>
-                                <div>
-                                    <span className='text-center rounded-full bg-rose-50 px-2 py-1 text-xs border border-rose-800 text-rose-900'>3 pending</span>
-                                </div>
-
-                                <div className='flex items-center gap-4'>
-                                    <div className='w-full max-w-md rounded-full h-2 bg-gray-100'>
-                                        <div className='bg-green-600 h-2 rounded-full' style={{ width: '26%' }}></div>
+                                    <div className='flex items-center gap-4'>
+                                        <div className='w-full max-w-md rounded-full h-2 bg-gray-100'>
+                                            <div className='bg-green-600 h-2 rounded-full' style={{ width: '40%' }}></div>
+                                        </div>
+                                        <span className='text-xs font-semibold text-gray-500 font-mono'>40%</span>
                                     </div>
-                                    <span className='text-xs font-semibold text-gray-500 font-mono'>26%</span>
+                                    <EllipsisVerticalIcon className='size-6' />
                                 </div>
-                                <EllipsisVerticalIcon className='size-6' />
                             </div>
-                        </div>
+                        ))}
 
-                        <div className='hover:bg-gray-50 group cursor-pointer py-6'>
-                            <div className='grid grid-cols-[2fr_1fr_1fr_1fr_auto] gap-4 items-center align-middle'>
-                                <h3 className='text-sm font-semibold text-gray-900'>AuM Report Automation</h3>
-                                <div >
-                                    <span className='text-center rounded-full bg-blue-50 px-2  py-1 text-xs border border-blue-800 text-blue-900'>Development</span>
-                                </div>
-                                <div>
-                                    <span className='text-center rounded-full bg-rose-50 px-2 py-1 text-xs border border-rose-800 text-rose-900'>3 pending</span>
-                                </div>
-
-                                <div className='flex items-center gap-4'>
-                                    <div className='w-full max-w-md rounded-full h-2 bg-gray-100'>
-                                        <div className='bg-green-600 h-2 rounded-full' style={{ width: '70%' }}></div>
-                                    </div>
-                                    <span className='text-xs font-semibold text-gray-500 font-mono'>70%</span>
-                                </div>
-                                <EllipsisVerticalIcon className='size-6' />
-                            </div>
-                        </div>
                     </div>
 
-                    <a className='pl-3 text-xs font-medium text-indigo-500 hover:text-indigo-700' href='/'>Show completed</a>
+                    <a className='pl-3 text-xs font-medium text-indigo-500 hover:text-indigo-700' href='/initiatives'>Show all</a>
                 </div>
             </div>
         </>

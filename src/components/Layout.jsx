@@ -1,8 +1,13 @@
 import { ArrowRightCircleIcon, EllipsisVerticalIcon, FolderArrowDownIcon, UserCircleIcon, ViewColumnsIcon } from '@heroicons/react/24/solid';
 import { ArrowDownCircleIcon, CheckBadgeIcon, RectangleGroupIcon, Square3Stack3DIcon } from '@heroicons/react/24/solid';
 import { Outlet } from 'react-router-dom';
+import { useApi } from '../hooks/useApi';
+import { getDashboard } from '../services/dashboardService';
+
 
 export default function Layout() {
+    const { data: dashboardData, isLoading, error, refetch } = useApi(getDashboard, true);
+
     return (
         <div className="grid min-h-dvh grid-cols-1 grid-rows-[1fr_1px_auto_1px_auto] lg:grid-cols-[16rem_1.5rem_minmax(0,1fr)_1.5rem] font-">
             <div className="relative text-black col-start-1 col-span-1 row-start-1 row-span-full max-lg:hidden">
@@ -72,26 +77,17 @@ export default function Layout() {
                     <Outlet />
 
                     <div className="max-xl:hidden">
-                        <div className='sticky top-0 max-h-full overflow-x-hidden overflow-y-auto p-6 pt-20 bg-white border-l border-gray-200'>
+                        <div className='sticky top-0 max-h-full overflow-y-auto p-6 pt-20 bg-white border-l border-gray-200'>
                             <h3 className='text-sm font-bold text-gray-900 uppercase tracking-wide mb-6'>Recent Activity</h3>
                             <div className='space-y-6'>
-                                <div className='border-l-2 border-indigo-500 pl-4'>
-                                    <p className='text-sm font-semibold text-gray-900'>Stage Advanced</p>
-                                    <p className='text-sm text-gray-600 mt-1'>Factsheet Auto.</p>
-                                    <p className='text-xs text-gray-400 mt-2'>2 hours ago</p>
-                                </div>
+                                {dashboardData && dashboardData.data.recent_activity.slice(0, 5).map((activity) => (
 
-                                <div className='border-l-2 border-indigo-500 pl-4'>
-                                    <p className='text-sm font-semibold text-gray-900'>Stage Advanced</p>
-                                    <p className='text-sm text-gray-600 mt-1'>Factsheet Auto.</p>
-                                    <p className='text-xs text-gray-400 mt-2'>2 hours ago</p>
-                                </div>
-
-                                <div className='border-l-2 border-indigo-500 pl-4'>
-                                    <p className='text-sm font-semibold text-gray-900'>Stage Advanced</p>
-                                    <p className='text-sm text-gray-600 mt-1'>Factsheet Auto.</p>
-                                    <p className='text-xs text-gray-400 mt-2'>2 hours ago</p>
-                                </div>
+                                    <div className='border-l-2 border-indigo-500 pl-4'>
+                                        <p className='text-sm font-semibold text-gray-900 capitalize'>{activity.action}</p>
+                                        <p className='text-sm text-gray-600 mt-1'>{activity.initiative.title}</p>
+                                        <p className='text-xs text-gray-400 mt-2'>2 hours ago</p>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </div>
