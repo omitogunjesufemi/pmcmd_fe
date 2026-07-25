@@ -25,7 +25,6 @@ export default function App() {
             </Route>
           </Route>
 
-
         </Routes>
       </BrowserRouter>
     </AuthProvider>

@@ -1,4 +1,4 @@
-import { EllipsisVerticalIcon } from '@heroicons/react/24/solid';
+import { EllipsisVerticalIcon, EyeIcon, PencilSquareIcon } from '@heroicons/react/24/solid';
 import { useEffect, useState } from 'react';
 import { getDashboard } from '../services/dashboardService';
 import { useApi } from '../hooks/useApi';
@@ -6,6 +6,7 @@ import { useApi } from '../hooks/useApi';
 
 export default function Dashboard() {
     const { data: dashboardData, isLoading, error, refetch } = useApi(getDashboard, true);
+    const [openMenuId, setOpenMenuId] = useState(null);
 
     if (isLoading) {
         return <div className="p-6 text-gray-500">Loading dashboard data...</div>;
@@ -42,7 +43,7 @@ export default function Dashboard() {
                 <div className='mt-8 overflow-hidden'>
                     <div className='p-3 flex justify-between'>
                         <h2 className='text-m font-semibold text-gray-900'>Initiatives ({dashboardData.data.summary.total_initiatives})</h2>
-                        <a className='text-xs font-medium text-indigo-500 hover:text-indigo-700' href='/initiatives/add'>+ Add Initiative</a>
+                        <a className='text-xs font-semibold text-indigo-500 hover:text-indigo-700' href='/initiatives/add'>+ Add Initiative</a>
                     </div>
                     <div className='p-3 divide-y divide-gray-100'>
                         <div className='hover:bg-gray-50 group cursor-pointer pb-2'>
@@ -54,6 +55,7 @@ export default function Dashboard() {
                                 <EllipsisVerticalIcon className='size-6 fill-transparent' />
                             </div>
                         </div>
+
                         {dashboardData.data.initiatives.map((initiative) => (
                             <div className='hover:bg-gray-50 group cursor-pointer py-6'>
                                 <div className='grid grid-cols-[2fr_1fr_1fr_1fr_auto] gap-4 items-center align-middle'>
@@ -72,7 +74,20 @@ export default function Dashboard() {
                                         </div>
                                         <span className='text-xs font-semibold text-gray-500 font-mono'>40%</span>
                                     </div>
-                                    <EllipsisVerticalIcon className='size-6' />
+                                    <div className='relative'>
+                                        <EllipsisVerticalIcon className='size-6 cursor-pointer hover:transition' onClick={() => setOpenMenuId(openMenuId === initiative.id ? null : initiative.id)} />
+
+                                        {openMenuId === initiative.id && (
+                                            <>
+                                                <div className='fixed inset-0 z-40' onClick={() => setOpenMenuId(null)}></div>
+                                                <div className='absolute right-0 top-full mt-2 w-24 rounded-xl border border-gray-100 shadow-xl z-50 py-1 bg-white flex flex-col gap-2'>
+                                                    <a href={`/initiatives/${initiative.id}/edit`} className='px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 transition flex flex-row gap-2 items-center justify-center'><PencilSquareIcon className='size-4' />Edit</a>
+                                                    <a href={`/initiatives/${initiative.id}/edit`} className='px-4 py-2 text-sm text-left text-gray-700 hover:bg-blue-50 transition flex flex-row gap-2 items-center justify-center'> <EyeIcon className='size-4' />View</a>
+                                                </div>
+                                            </>
+                                        )}
+                                    </div>
+
                                 </div>
                             </div>
                         ))}

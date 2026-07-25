@@ -8,6 +8,7 @@ export default function CreateInitiative() {
     const [description, setDescription] = useState('');
     const [categoryId, setCategoryId] = useState('');
     const [initiativeTypeId, setInitiativeTypeId] = useState('');
+    const [implementation, setImplementation] = useState('');
 
     const { isLoading, error, refetch: executeCreateInitiative } = useApi(createInitiative, false);
     const { data: categoryData, isLoading: isLoadingCategory, refetch: executeCategoryList } = useApi(categoryList);
@@ -18,7 +19,7 @@ export default function CreateInitiative() {
         e.preventDefault();
 
         try {
-            await executeCreateInitiative(title, description, categoryId, initiativeTypeId, 'active');
+            await executeCreateInitiative(title, description, categoryId, initiativeTypeId, 'active', implementation);
             navigate("/");
         } catch (error) {
             console.log(error);
@@ -73,6 +74,17 @@ export default function CreateInitiative() {
                                 </select>
                             </div>
 
+                            <div className='flex flex-col'>
+                                <label className='mb-1.5 text-sm font-medium text-gray-700'>
+                                    Implementation<span className="text-red-600"> *</span>
+                                </label>
+                                <select className='border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition' name="status" id="status" onChange={(e) => setImplementation(e.target.value)} required>
+                                    <option value="">--- Please select mode of implementation ---</option>
+                                    <option className='border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition' value="internal">Internal</option>
+                                    <option className='border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition' value="external">External</option>
+                                    <option className='border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition' value="hybrid">Hybrid</option>
+                                </select>
+                            </div>
 
                             <div className='flex flex-col'>
                                 <button className="bg-blue-500 rounded-xl px-3 py-2 w-full hover:bg-blue-700 text-white font-medium transition disabled:bg-blue-300" disabled={isLoading} type="submit">Create</button>
