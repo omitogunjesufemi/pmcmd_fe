@@ -7,6 +7,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import InitiativeList from "./pages/InitiativeList";
 import CreateInitiative from "./pages/CreateInitiaitve";
 import EditInitiative from "./pages/EditInitiative";
+import Register from "./pages/Register";
 
 export default function App() {
   return (
@@ -15,6 +16,8 @@ export default function App() {
         <Routes>
 
           <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Register />} />
+          <Route path="/register" element={<Register />} />
 
           <Route element={<ProtectedRoute />}>
             <Route element={<Layout />}>

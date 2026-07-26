@@ -29,9 +29,11 @@ export default function Login() {
     return (
         <div className='w-full flex justify-center items-center min-h-dvh bg-gray-50 text-gray-800'>
             <div className='w-full max-w-md bg-white p-8 rounded-2xl shadow-sm border border-gray-200 flex flex-col gap-8'>
-                <div className='flex flex-row justify-center items-center'>
-                    <RectangleGroupIcon className="size-12" />
-                    <p className='font-bold text-2xl font-sans'>PMCMD</p>
+                <div>
+                    <a href='/' className='flex flex-row justify-center items-center'>
+                        <RectangleGroupIcon className="size-12" />
+                        <p className='font-bold text-2xl font-sans'>PMCMD</p>
+                    </a>
                 </div>
                 <div className='flex flex-col gap-4 items-center'>
                     <p className='font-bold text-4xl'>Welcome Back!</p>
@@ -65,7 +67,7 @@ export default function Login() {
 
                     <div className='m-auto'>
                         <span>
-                            Don't have an account? <a href='/' className='text-m w-full text-indigo-600'>Register</a>
+                            Don't have an account? <a href='/register' className='text-m w-full text-indigo-600'>Register</a>
                         </span>
                     </div>
                 </form>

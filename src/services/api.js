@@ -34,7 +34,13 @@ export default async function apiFetch(endpoint, options = {}) {
 
     if (!response.ok) {
         const errorData = await response.json().catch(() => { })
-        throw new Error(errorData?.message || "API request failed.");
+
+        if (errorData.errors) {
+            throw new Error(errorData.errors.detail || "API request failed.");
+        } else {
+            throw new Error(errorData?.errors.message || "API request failed.");
+        }
+
     }
 
     if (response.status === 204) {
