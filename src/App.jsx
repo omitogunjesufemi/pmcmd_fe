@@ -8,6 +8,7 @@ import InitiativeList from "./pages/InitiativeList";
 import CreateInitiative from "./pages/CreateInitiaitve";
 import EditInitiative from "./pages/EditInitiative";
 import Register from "./pages/Register";
+import InitiativeDetail from "./pages/InitiativeDetail";
 
 export default function App() {
   return (
@@ -25,6 +26,7 @@ export default function App() {
               <Route path="/initiatives" element={<InitiativeList />} />
               <Route path="/initiatives/add" element={<CreateInitiative />} />
               <Route path="/initiatives/:initiative_id/edit" element={<EditInitiative />} />
+              <Route path="/initiatives/:initiative_id" element={<InitiativeDetail />} />
             </Route>
           </Route>
 

@@ -1,19 +1,10 @@
-import { EllipsisVerticalIcon, EyeIcon, PencilSquareIcon } from '@heroicons/react/24/solid';
-import { useEffect, useState } from 'react';
 import { getDashboard } from '../services/dashboardService';
 import { useApi } from '../hooks/useApi';
+import InitiativeList from './InitiativeList';
 
 
 export default function Dashboard() {
     const { data: dashboardData, isLoading, error, refetch } = useApi(getDashboard, true);
-    const [openMenuId, setOpenMenuId] = useState(null);
-
-    if (isLoading) {
-        return <div className="p-6 text-gray-500">Loading dashboard data...</div>;
-    }
-    if (error) {
-        return <div className="p-6 text-red-600 bg-red-50 rounded-xl">Error: {error}</div>;
-    }
 
     return (
         <>
@@ -21,81 +12,42 @@ export default function Dashboard() {
                 <h1 className='text-4xl font-semibold mt-2 text-gray-800'>Governance Tracker</h1>
                 <p className='uppercase flex items-center gap-2 font-mono text-xs font-medium mt-2 ml-1.5'>Monitor initiative compliance and status</p>
 
-                {/* KPI Cards */}
-                <div className='mt-10 grid grid-cols-1 md:grid-cols-3 gap-6 w-full'>
-                    <div className='bg-white-300 p-6 rounded-2xl border border-gray-200 shadow-sm'>
-                        <p className='text-sm font-medium text-gray-500 uppercase tracking-wide'>Active Initiatives</p>
-                        <p className='text-4xl font-semibold text-gray-900 mt-2'>{dashboardData.data.summary.active}</p>
-                    </div>
+                {isLoading && <div className="p-6 text-gray-500">Loading dashboard data...</div>}
+                {error && <div className="p-6 text-red-600 bg-red-50 rounded-xl">Error: {error}</div>}
+                {dashboardData &&
+                    <>
+                        {/* KPI Cards */}
+                        <div className='mt-10 grid grid-cols-1 md:grid-cols-3 gap-6 w-full'>
+                            <div className='bg-white-300 p-6 rounded-2xl border border-gray-200 shadow-sm'>
+                                <p className='text-sm font-medium text-gray-500 uppercase tracking-wide'>Active Initiatives</p>
+                                <p className='text-4xl font-semibold text-gray-900 mt-2'>{dashboardData.data.summary.active}</p>
+                            </div>
 
-                    <div className='bg-white-300 p-6 rounded-2xl border border-gray-200 shadow-sm'>
-                        <p className='text-sm font-medium text-gray-500 uppercase tracking-wide'>Pending Documents</p>
-                        <p className='text-4xl font-semibold text-gray-900 mt-2'>{dashboardData.data.needs_attention.count}</p>
-                    </div>
+                            <div className='bg-white-300 p-6 rounded-2xl border border-gray-200 shadow-sm'>
+                                <p className='text-sm font-medium text-gray-500 uppercase tracking-wide'>Pending Documents</p>
+                                <p className='text-4xl font-semibold text-gray-900 mt-2'>{dashboardData.data.needs_attention.count}</p>
+                            </div>
 
-                    <div className='bg-white-300 p-6 rounded-2xl border border-gray-200 shadow-sm'>
-                        <p className='text-sm font-medium text-gray-500 uppercase tracking-wide'>Blocked Stages</p>
-                        <p className='text-4xl font-semibold text-gray-900 mt-2'>{dashboardData.data.needs_attention.count}</p>
-                    </div>
-                </div>
-
-                {/* Initiatives List */}
-                <div className='mt-8 overflow-hidden'>
-                    <div className='p-3 flex justify-between'>
-                        <h2 className='text-m font-semibold text-gray-900'>Initiatives ({dashboardData.data.summary.total_initiatives})</h2>
-                        <a className='text-xs font-semibold text-indigo-500 hover:text-indigo-700' href='/initiatives/add'>+ Add Initiative</a>
-                    </div>
-                    <div className='p-3 divide-y divide-gray-100'>
-                        <div className='hover:bg-gray-50 group cursor-pointer pb-2'>
-                            <div className='grid grid-cols-[2fr_1fr_1fr_1fr_auto] gap-4 items-center align-middle'>
-                                <span className='text-sm text-gray-400 font-medium'>Title</span>
-                                <span className='text-sm text-gray-400 font-medium'>Status</span>
-                                <span className='text-sm text-gray-400 font-medium'>Blockers</span>
-                                <span className='text-sm text-gray-400 font-medium'>Progress</span>
-                                <EllipsisVerticalIcon className='size-6 fill-transparent' />
+                            <div className='bg-white-300 p-6 rounded-2xl border border-gray-200 shadow-sm'>
+                                <p className='text-sm font-medium text-gray-500 uppercase tracking-wide'>Blocked Stages</p>
+                                <p className='text-4xl font-semibold text-gray-900 mt-2'>{dashboardData.data.needs_attention.count}</p>
                             </div>
                         </div>
 
-                        {dashboardData.data.initiatives.map((initiative) => (
-                            <div className='hover:bg-gray-50 group cursor-pointer py-6'>
-                                <div className='grid grid-cols-[2fr_1fr_1fr_1fr_auto] gap-4 items-center align-middle'>
-                                    <h3 className='text-sm font-semibold text-gray-900'>{initiative.title}</h3>
-                                    <div >
-                                        <span className='text-center rounded-full bg-blue-50 px-2  py-1 text-xs border border-blue-800 text-blue-900 capitalize'>{initiative.current_stage}</span>
-                                    </div>
-
-                                    <div>
-                                        <span className='text-center rounded-full bg-rose-50 px-2 py-1 text-xs border border-rose-800 text-rose-900'>{initiative.blocking_documents_count} pending</span>
-                                    </div>
-
-                                    <div className='flex items-center gap-4'>
-                                        <div className='w-full max-w-md rounded-full h-2 bg-gray-100'>
-                                            <div className='bg-green-600 h-2 rounded-full' style={{ width: '40%' }}></div>
-                                        </div>
-                                        <span className='text-xs font-semibold text-gray-500 font-mono'>40%</span>
-                                    </div>
-                                    <div className='relative'>
-                                        <EllipsisVerticalIcon className='size-6 cursor-pointer hover:transition' onClick={() => setOpenMenuId(openMenuId === initiative.id ? null : initiative.id)} />
-
-                                        {openMenuId === initiative.id && (
-                                            <>
-                                                <div className='fixed inset-0 z-40' onClick={() => setOpenMenuId(null)}></div>
-                                                <div className='absolute right-0 top-full mt-2 w-24 rounded-xl border border-gray-100 shadow-xl z-50 py-1 bg-white flex flex-col gap-2'>
-                                                    <a href={`/initiatives/${initiative.id}/edit`} className='px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 transition flex flex-row gap-2 items-center justify-center'><PencilSquareIcon className='size-4' />Edit</a>
-                                                    <a href={`/initiatives/${initiative.id}/edit`} className='px-4 py-2 text-sm text-left text-gray-700 hover:bg-blue-50 transition flex flex-row gap-2 items-center justify-center'> <EyeIcon className='size-4' />View</a>
-                                                </div>
-                                            </>
-                                        )}
-                                    </div>
-
-                                </div>
+                        {/* Initiatives List */}
+                        <div className='mt-8 overflow-hidden'>
+                            <div className='p-3 flex justify-between'>
+                                <h2 className='text-m font-semibold text-gray-900'>Initiatives ({dashboardData.data.summary.total_initiatives})</h2>
+                                <a className='text-xs font-semibold text-indigo-500 hover:text-indigo-700' href='/initiatives/add'>+ Add Initiative</a>
                             </div>
-                        ))}
 
-                    </div>
+                            <InitiativeList initiativeList={dashboardData.data.initiatives} />
 
-                    <a className='pl-3 text-xs font-medium text-indigo-500 hover:text-indigo-700' href='/initiatives'>Show all</a>
-                </div>
+                            <a className='pl-3 text-xs font-medium text-indigo-500 hover:text-indigo-700' href='/initiatives'>Show all</a>
+                        </div>
+                    </>
+                }
+
             </div>
         </>
     )

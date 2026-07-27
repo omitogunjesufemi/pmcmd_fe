@@ -3,10 +3,12 @@ import { ArrowDownCircleIcon, CheckBadgeIcon, RectangleGroupIcon, Square3Stack3D
 import { Outlet } from 'react-router-dom';
 import { useApi } from '../hooks/useApi';
 import { getDashboard } from '../services/dashboardService';
+import { useAuth } from '../context/AuthContext';
 
 
 export default function Layout() {
     const { data: dashboardData, isLoading, error, refetch } = useApi(getDashboard, true);
+    const { user } = useAuth();
 
     return (
         <div className="grid min-h-dvh grid-cols-1 grid-rows-[1fr_1px_auto_1px_auto] lg:grid-cols-[16rem_1.5rem_minmax(0,1fr)_1.5rem] font-">
@@ -29,7 +31,7 @@ export default function Layout() {
                                     </a>
                                 </li>
                                 <li className='flex items-center gap-4'>
-                                    <a className='text-gray-600 inline-flex hover:text-gray-800' href="/">
+                                    <a className='text-gray-600 inline-flex hover:text-gray-800' href="/initiatives">
                                         <FolderArrowDownIcon className='size-6' />
                                         <span className='ml-2 font-semibold'>Initiatives</span>
                                     </a>
@@ -41,7 +43,7 @@ export default function Layout() {
                                     </a>
                                 </li>
                                 <li className='flex items-center gap-4'>
-                                    <a className='text-gray-600 inline-flex hover:text-gray-800' href="/">
+                                    <a className='text-gray-600 inline-flex hover:text-gray-800' href="/documents">
                                         <Square3Stack3DIcon className='size-6' />
                                         <span className='ml-2 font-semibold'>Documents</span>
                                     </a>
@@ -60,7 +62,7 @@ export default function Layout() {
                             <div className="flex items-center gap-4">
                                 <a href="/" className="flex items-center gap-4 text-gray-800">
                                     <UserCircleIcon className="size-8" />
-                                    <p className='font-bold text-m font-sans'>User Profile</p>
+                                    <p className='font-bold text-lg font-sans'>{user.first_name[0] + '.' + user.last_name}</p>
                                 </a>
                             </div>
                             <ArrowRightCircleIcon className='size-6' />

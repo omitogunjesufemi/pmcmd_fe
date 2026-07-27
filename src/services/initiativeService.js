@@ -25,6 +25,16 @@ export async function getInitiativeById(initiative_id) {
     return data;
 }
 
+export async function getInitiatives() {
+    const { data } = await apiFetch(`/core/initiatives`);
+    return data;
+}
+
+export async function getInitiativeDocument(initiative_id) {
+    const { data } = await apiFetch(`/core/initiatives/${initiative_id}/documents`);
+    return data;
+}
+
 export async function categoryList() {
     const { data } = await apiFetch('/core/categories');
     return data;
